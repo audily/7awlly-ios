@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "568599639843",
+    "project_id": "awally-fe85d",
+    "storage_bucket": "awally-fe85d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568599639843:android:092c8db96cfb83f5483e96",
+        "android_client_info": {
+          "package_name": "com.wallet.hawally"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Tdi8L5CBgZ_jl_MmMIIXoF-6vxKMM00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

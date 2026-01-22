@@ -47,5 +47,7 @@
 	<true/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
     <true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App needs access to photo library to upload profile pictures and share content</string>
 </dict>
 </plist>

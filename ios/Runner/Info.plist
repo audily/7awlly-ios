@@ -49,5 +49,33 @@
     <true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App needs access to photo library to upload profile pictures and share content</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera to set image profile.</string>
+	<!-- Add this BEFORE the closing </dict> tag -->
+
+	<!-- Firebase/Google Services -->
+	<!-- Keep these -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>  <!-- NEEDED for Firebase Notifications -->
+	</array>
+
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+
+	<!-- Add Firebase if missing -->
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 </dict>
 </plist>

@@ -18,33 +18,82 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  // await initUniLinks();
-  await ScreenUtil.ensureScreenSize();
-  // InternetCheckDependencyInjection.init();
-  await GetStorage.init();
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await FCMConfig.instance.init(
-    onBackgroundMessage: _firebaseMessagingBackgroundHandler,
-    defaultAndroidForegroundIcon:
+  print('🚀 APP STARTING - If you see this, Flutter engine loaded');
+
+  try {
+    // await initUniLinks();
+    await ScreenUtil.ensureScreenSize();
+    // InternetCheckDependencyInjection.init();
+    await GetStorage.init();
+    WidgetsFlutterBinding.ensureInitialized();
+
+    print('✅ Basic initialization done');
+
+    // Try Firebase - this might be crashing
+    try {
+      await Firebase.initializeApp();
+      print('✅ Firebase initialized');
+    } catch (e) {
+      print('❌ Firebase error: $e');
+      // Continue without Firebase for testing
+    }
+
+    try {
+      await FCMConfig.instance.init(
+        onBackgroundMessage: _firebaseMessagingBackgroundHandler,
+        defaultAndroidForegroundIcon:
         '@mipmap/ic_launcher', //default is @mipmap/ic_launcher
-    defaultAndroidChannel: AndroidNotificationChannel(
-      'high_importance_channel', // same as value from android setup
-      'Fcm config',
-      importance: Importance.high,
-      sound: RawResourceAndroidNotificationSound('notification'),
-    ),
-  );
+        defaultAndroidChannel: AndroidNotificationChannel(
+          'high_importance_channel', // same as value from android setup
+          'Fcm config',
+          importance: Importance.high,
+          sound: RawResourceAndroidNotificationSound('notification'),
+        ),
+      );
+      print('✅ FCM initialized');
+    } catch (e) {
+      print('❌ FCM error: $e');
+    }
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.portraitUp,
-  ]);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light));
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light));
 
-  runApp(const MyApp());
+    print('✅ All initialization complete, running app...');
+    runApp(const MyApp());
+    print('✅ App running');
+
+  } catch (e, s) {
+    print('❌ MAIN FUNCTION ERROR: $e');
+    print('📝 Stack: $s');
+
+    // Show error screen
+    runApp(MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('🔥 CRASH ON STARTUP', style: TextStyle(fontSize: 24, color: Colors.red)),
+                  SizedBox(height: 20),
+                  Text('Error: $e', style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 20),
+                  Text('Stack trace in console', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ));
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -62,7 +111,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'Roboto',
               ),*/
           bottomSheetTheme:
-              const BottomSheetThemeData(backgroundColor: Colors.transparent),
+          const BottomSheetThemeData(backgroundColor: Colors.transparent),
         ),
         initialRoute: Routes.splashScreen,
         getPages: Routes.list,
@@ -75,7 +124,7 @@ class MyApp extends StatelessWidget {
         builder: (context, widget) {
           ScreenUtil.init(context);
           return Obx(
-            () => MediaQuery(
+                () => MediaQuery(
               data: MediaQuery.of(context)
                   .copyWith(textScaler: TextScaler.linear(1.0)),
               child: Directionality(

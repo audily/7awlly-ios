@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dynamic_languages/dynamic_languages.dart';
 import 'package:fcm_config/fcm_config.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,43 +19,41 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  print('🚀 APP STARTING - If you see this, Flutter engine loaded');
+  // Create log file for crashes
+  final logFile = File('${Directory.systemTemp.path}/app_crash.log');
 
   try {
+    print('🚀 APP STARTING - Phase 1: Basic init');
+
     // await initUniLinks();
     await ScreenUtil.ensureScreenSize();
     // InternetCheckDependencyInjection.init();
     await GetStorage.init();
     WidgetsFlutterBinding.ensureInitialized();
 
-    print('✅ Basic initialization done');
+    print('✅ Phase 1 complete');
 
-    // Try Firebase - this might be crashing
-    try {
-      await Firebase.initializeApp();
-      print('✅ Firebase initialized');
-    } catch (e) {
-      print('❌ Firebase error: $e');
-      // Continue without Firebase for testing
-    }
+    // Phase 2: Firebase
+    print('🚀 Phase 2: Firebase init');
+    await Firebase.initializeApp();
+    print('✅ Firebase initialized');
 
-    try {
-      await FCMConfig.instance.init(
-        onBackgroundMessage: _firebaseMessagingBackgroundHandler,
-        defaultAndroidForegroundIcon:
-        '@mipmap/ic_launcher', //default is @mipmap/ic_launcher
-        defaultAndroidChannel: AndroidNotificationChannel(
-          'high_importance_channel', // same as value from android setup
-          'Fcm config',
-          importance: Importance.high,
-          sound: RawResourceAndroidNotificationSound('notification'),
-        ),
-      );
-      print('✅ FCM initialized');
-    } catch (e) {
-      print('❌ FCM error: $e');
-    }
+    // Phase 3: FCM
+    print('🚀 Phase 3: FCM init');
+    await FCMConfig.instance.init(
+      onBackgroundMessage: _firebaseMessagingBackgroundHandler,
+      defaultAndroidForegroundIcon:
+      '@mipmap/ic_launcher',
+      defaultAndroidChannel: AndroidNotificationChannel(
+        'high_importance_channel',
+        'Fcm config',
+        importance: Importance.high,
+        sound: RawResourceAndroidNotificationSound('notification'),
+      ),
+    );
+    print('✅ FCM initialized');
 
+    // Phase 4: System settings
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
@@ -64,14 +63,33 @@ void main() async {
         statusBarIconBrightness: Brightness.light));
 
     print('✅ All initialization complete, running app...');
+
+    // Run the app
     runApp(const MyApp());
-    print('✅ App running');
+
+    print('✅ App is running');
 
   } catch (e, s) {
-    print('❌ MAIN FUNCTION ERROR: $e');
-    print('📝 Stack: $s');
+    // Write crash to log file
+    final errorMessage = '''
+    ===== CRASH REPORT =====
+    Time: ${DateTime.now()}
+    Error: $e
+    Stack Trace: $s
+    ========================
+    ''';
 
-    // Show error screen
+    print('❌ CRASH DETECTED: $e');
+    print('📝 Stack trace written to crash log');
+
+    try {
+      await logFile.writeAsString(errorMessage);
+      print('✅ Crash log saved to: ${logFile.path}');
+    } catch (logError) {
+      print('❌ Failed to write log: $logError');
+    }
+
+    // Show error screen (for testing)
     runApp(MaterialApp(
       home: Scaffold(
         body: Center(
@@ -81,11 +99,20 @@ void main() async {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('🔥 CRASH ON STARTUP', style: TextStyle(fontSize: 24, color: Colors.red)),
+                  Icon(Icons.error, size: 64, color: Colors.red),
                   SizedBox(height: 20),
-                  Text('Error: $e', style: TextStyle(fontSize: 16)),
+                  Text('App Crashed on Startup',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red)),
                   SizedBox(height: 20),
-                  Text('Stack trace in console', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.black12,
+                    child: Text('$e',
+                        style: TextStyle(fontSize: 16, color: Colors.black87)),
+                  ),
+                  SizedBox(height: 20),
+                  Text('Check crash log for details',
+                      style: TextStyle(fontSize: 14, color: Colors.grey)),
                 ],
               ),
             ),
@@ -107,9 +134,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.cairoTextTheme(),
-          /*ThemeData.light().textTheme.apply(
-                fontFamily: 'Roboto',
-              ),*/
           bottomSheetTheme:
           const BottomSheetThemeData(backgroundColor: Colors.transparent),
         ),
@@ -117,9 +141,17 @@ class MyApp extends StatelessWidget {
         getPages: Routes.list,
         navigatorKey: Get.key,
         initialBinding: BindingsBuilder(() async {
-          Get.put(SystemMaintenanceController(), permanent: true);
-          Get.put(SettingController(), permanent: true);
-          await DynamicLanguage.init(url: ApiEndpoint.languageURL);
+          print('🚀 InitialBinding: Starting GetX controllers');
+          try {
+            Get.put(SystemMaintenanceController(), permanent: true);
+            Get.put(SettingController(), permanent: true);
+            await DynamicLanguage.init(url: ApiEndpoint.languageURL);
+            print('✅ InitialBinding complete');
+          } catch (e, s) {
+            print('❌ InitialBinding error: $e');
+            print('Stack: $s');
+            rethrow;
+          }
         }),
         builder: (context, widget) {
           ScreenUtil.init(context);

@@ -19,31 +19,27 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  // Create log file for crashes
-  final logFile = File('${Directory.systemTemp.path}/app_crash.log');
+  String errorMessage = '';
+  StackTrace? errorStackTrace;
 
   try {
-    print('🚀 APP STARTING - Phase 1: Basic init');
+    print('🚀 APP STARTING');
 
-    // await initUniLinks();
+    // Basic initialization
     await ScreenUtil.ensureScreenSize();
-    // InternetCheckDependencyInjection.init();
     await GetStorage.init();
     WidgetsFlutterBinding.ensureInitialized();
 
-    print('✅ Phase 1 complete');
+    print('✅ Basic init complete');
 
-    // Phase 2: Firebase
-    print('🚀 Phase 2: Firebase init');
+    // Firebase
     await Firebase.initializeApp();
     print('✅ Firebase initialized');
 
-    // Phase 3: FCM
-    print('🚀 Phase 3: FCM init');
+    // FCM
     await FCMConfig.instance.init(
       onBackgroundMessage: _firebaseMessagingBackgroundHandler,
-      defaultAndroidForegroundIcon:
-      '@mipmap/ic_launcher',
+      defaultAndroidForegroundIcon: '@mipmap/ic_launcher',
       defaultAndroidChannel: AndroidNotificationChannel(
         'high_importance_channel',
         'Fcm config',
@@ -53,7 +49,7 @@ void main() async {
     );
     print('✅ FCM initialized');
 
-    // Phase 4: System settings
+    // System settings
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
@@ -62,57 +58,118 @@ void main() async {
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light));
 
-    print('✅ All initialization complete, running app...');
+    print('✅ All initialization complete');
 
     // Run the app
     runApp(const MyApp());
 
-    print('✅ App is running');
-
   } catch (e, s) {
-    // Write crash to log file
-    final errorMessage = '''
-    ===== CRASH REPORT =====
-    Time: ${DateTime.now()}
-    Error: $e
-    Stack Trace: $s
-    ========================
-    ''';
+    errorMessage = 'CRASH: $e';
+    errorStackTrace = s;
 
     print('❌ CRASH DETECTED: $e');
-    print('📝 Stack trace written to crash log');
+    print('📝 Stack trace: $s');
 
-    try {
-      await logFile.writeAsString(errorMessage);
-      print('✅ Crash log saved to: ${logFile.path}');
-    } catch (logError) {
-      print('❌ Failed to write log: $logError');
-    }
-
-    // Show error screen (for testing)
+    // Show FULL error on screen
     runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
+        backgroundColor: Colors.white,
+        body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.error, size: 64, color: Colors.red),
-                  SizedBox(height: 20),
-                  Text('App Crashed on Startup',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red)),
-                  SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    color: Colors.black12,
-                    child: Text('$e',
-                        style: TextStyle(fontSize: 16, color: Colors.black87)),
+                  // Header
+                  Row(
+                    children: [
+                      Icon(Icons.error, size: 40, color: Colors.red),
+                      SizedBox(width: 10),
+                      Text('🔥 APP CRASHED ON STARTUP',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red)),
+                    ],
                   ),
                   SizedBox(height: 20),
-                  Text('Check crash log for details',
-                      style: TextStyle(fontSize: 14, color: Colors.grey)),
+
+                  // Error message
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.red[50],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.red[200]!),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Error:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        SizedBox(height: 10),
+                        SelectableText(
+                          errorMessage,
+                          style: TextStyle(fontSize: 14, fontFamily: 'Monospace'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
+                  // Stack trace (collapsible)
+                  ExpansionTile(
+                    title: Text('Stack Trace (Click to expand)', style: TextStyle(fontWeight: FontWeight.bold)),
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: SelectableText(
+                          errorStackTrace.toString(),
+                          style: TextStyle(fontSize: 10, fontFamily: 'Monospace'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+
+                  // Instructions
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.blue[200]!),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('📱 What to do:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        SizedBox(height: 10),
+                        Text('1. Take a screenshot of this screen', style: TextStyle(fontSize: 14)),
+                        Text('2. Send it to the developer', style: TextStyle(fontSize: 14)),
+                        Text('3. Restart the app', style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30),
+
+                  // Restart button
+                  Center(
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.refresh),
+                      label: Text('Try Again'),
+                      onPressed: () {
+                        // In a real app, you might want to restart
+                        // For now, just show message
+                        Get.snackbar('Info', 'Please re-open the app');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -150,7 +207,7 @@ class MyApp extends StatelessWidget {
           } catch (e, s) {
             print('❌ InitialBinding error: $e');
             print('Stack: $s');
-            rethrow;
+            rethrow; // This will be caught by outer try-catch
           }
         }),
         builder: (context, widget) {

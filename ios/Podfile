@@ -1,34 +1,8 @@
-# Platform
-platform :ios, '12.0'
-
-# CocoaPods analytics
-install! 'cocoapods', :deterministic_uuids => false
-
-# Prevent Cocoapods from embedding a second Flutter framework
-prepare_ios_project
-
-# Flutter framework
-flutter_ios_podfile_setup
-
-# Target
-target 'Runner' do
-  use_frameworks!
-  use_modular_headers!
-
-  # Flutter pods
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
-
-# Post install
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    flutter_additional_ios_build_settings(target)
-
-    # Fix for arm64 simulator
-    target.build_configurations.each do |config|
-      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-      config.build_settings['ENABLE_BITCODE'] = 'NO'
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
-    end
-  end
-end
+platform :ios, '13.0' 
+ 
+target 'Runner' do 
+  use_frameworks! 
+  use_modular_headers! 
+ 
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__)) 
+end 

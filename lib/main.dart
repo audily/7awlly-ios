@@ -19,9 +19,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   try {
-    await ScreenUtil.ensureScreenSize();
-    await GetStorage.init();
     WidgetsFlutterBinding.ensureInitialized();
+    await GetStorage.init();
+    await ScreenUtil.ensureScreenSize();
 
     await Firebase.initializeApp();
 

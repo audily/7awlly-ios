@@ -137,7 +137,12 @@ class KYCController extends GetxController with ProfileSettingsService {
             children: [
               TextLabelsWidget(
                 textLabels: data[item].label,
-                textColor: CustomColor.textColor,
+                textColor: CustomColor.textColor, textStyle:TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                // Note: color here will override textColor if both are defined,
+                // so ensure textColor is handled inside the widget.
+              ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -166,7 +171,12 @@ class KYCController extends GetxController with ProfileSettingsService {
             children: [
               TextLabelsWidget(
                 textLabels: data[item].label,
-                textColor: CustomColor.textColor,
+                textColor: CustomColor.textColor, textStyle: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                // Note: color here will override textColor if both are defined,
+                // so ensure textColor is handled inside the widget.
+              ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(

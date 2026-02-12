@@ -10,7 +10,7 @@ class TextLabelsWidget extends StatelessWidget {
       {Key? key,
       required this.textLabels,
       required this.textColor,
-      this.margin = 0.5})
+      this.margin = 0.5, required TextStyle textStyle})
       : super(key: key);
 
   final String textLabels;
@@ -33,7 +33,7 @@ class TextLabelsWidget extends StatelessWidget {
             child: PrimaryTextWidget(
               text: textLabels,
               style: TextStyle(
-                  color: textColor, fontSize: 16, fontWeight: FontWeight.w500),
+                  color: textColor, fontSize: 18, fontWeight: FontWeight.w500),
             ),
           )
         ],

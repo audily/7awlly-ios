@@ -74,7 +74,12 @@ class EditProfileScreen extends StatelessWidget {
                         children: [
                           TextLabelsWidget(
                             textLabels: Strings.firstName,
-                            textColor: CustomColor.textColor,
+                            textColor: CustomColor.textColor, textStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            // Note: color here will override textColor if both are defined,
+                            // so ensure textColor is handled inside the widget.
+                          ),
                           ),
                           InputTextField(
                             controller: _controller.firstNameController,
@@ -92,7 +97,12 @@ class EditProfileScreen extends StatelessWidget {
                         children: [
                           TextLabelsWidget(
                             textLabels: Strings.lastName,
-                            textColor: CustomColor.textColor,
+                            textColor: CustomColor.textColor, textStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            // Note: color here will override textColor if both are defined,
+                            // so ensure textColor is handled inside the widget.
+                          ),
                           ),
                           InputTextField(
                             controller: _controller.lastNameController,
@@ -156,7 +166,12 @@ class EditProfileScreen extends StatelessWidget {
             ),*/
             TextLabelsWidget(
               textLabels: Strings.phoneNumber,
-              textColor: CustomColor.textColor,
+              textColor: CustomColor.textColor, textStyle: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              // Note: color here will override textColor if both are defined,
+              // so ensure textColor is handled inside the widget.
+            ),
             ),
             Container(
               margin:
@@ -217,7 +232,12 @@ class EditProfileScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.city,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.cityController,
@@ -237,7 +257,12 @@ class EditProfileScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.state,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.stateController,
@@ -257,7 +282,12 @@ class EditProfileScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.address,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.addressController,
@@ -277,7 +307,12 @@ class EditProfileScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.zipCode,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.zipCodeController,

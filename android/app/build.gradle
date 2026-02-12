@@ -10,11 +10,7 @@ def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
+
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -27,12 +23,12 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    namespace = "com.wallet.hawally"
-    compileSdk 34
+    namespace "com.hawally.app"
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -48,44 +44,24 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.wallet.hawally"
-        minSdkVersion 25
-        targetSdkVersion 34
-        versionCode 7
-        versionName "3.0.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId "com.hawally.app"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
-    signingConfigs {
-        release {
-            keyAlias "key"
-            keyPassword "54697811"
-            storeFile file("E:\\walletium-digital-wallet-and-payment-gateway-full-solution\\main-files\\walletium-app\\walletium-app-new-1.2.0\\android\\key.jks")
-            storePassword "54697811"
-        }
-    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
-
 }
-
-
 
 flutter {
     source '../..'
 }
 
-
-
-
-
 dependencies {
-    // Add these lines
-    implementation platform('com.google.firebase:firebase-bom:33.6.0')
-    implementation 'com.google.firebase:firebase-analytics'
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-
-apply plugin: 'com.google.gms.google-services'

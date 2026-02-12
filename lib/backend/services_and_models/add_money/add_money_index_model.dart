@@ -50,6 +50,8 @@ class GatewayCurrency {
   final bool crypto;
   final dynamic desc;
   final bool status;
+  final String quickCopy;
+  final String quickCopyTitle;
   final List<Currency> currencies;
 
   GatewayCurrency({
@@ -59,6 +61,8 @@ class GatewayCurrency {
     required this.crypto,
     required this.desc,
     required this.status,
+    required this.quickCopy,
+    required this.quickCopyTitle,
     required this.currencies,
   });
 
@@ -70,6 +74,8 @@ class GatewayCurrency {
         crypto: json["crypto"],
         desc: json["desc"] ?? "",
         status: json["status"],
+        quickCopy:  json["quick_copy"] ?? "",
+        quickCopyTitle:  json["quick_copy_title"] ?? "",
         currencies: List<Currency>.from(
             json["currencies"].map((x) => Currency.fromJson(x))),
       );

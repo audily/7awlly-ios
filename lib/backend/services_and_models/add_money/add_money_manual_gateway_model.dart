@@ -5,10 +5,11 @@ class AddMoneyManualGatewayModel {
     required this.data,
   });
 
-  factory AddMoneyManualGatewayModel.fromJson(Map<String, dynamic> json) =>
-      AddMoneyManualGatewayModel(
-        data: Data.fromJson(json["data"]),
-      );
+  factory AddMoneyManualGatewayModel.fromJson(Map<String, dynamic> json) {
+    return AddMoneyManualGatewayModel(
+      data: Data.fromJson(json["data"]),
+    );
+  }
 }
 
 class Data {
@@ -31,18 +32,24 @@ class Gateway {
   final String desc;
   final String quick_copy;
   final String quick_copy_title;
+  final String admin_provided_number; // New field
 
   Gateway({
     required this.desc,
     required this.quick_copy,
     required this.quick_copy_title,
+    required this.admin_provided_number, // New field
   });
 
-  factory Gateway.fromJson(Map<String, dynamic> json) => Gateway(
-        desc: json["desc"] ?? "",
-        quick_copy: json["quick_copy"] ?? "",
-        quick_copy_title: json["quick_copy_title"] ?? "",
-      );
+  factory Gateway.fromJson(Map<String, dynamic> json) {
+    print('Parsing Gateway: $json');
+    return Gateway(
+      desc: json["desc"] ?? "",
+      quick_copy: json["quick_copy"] ?? "",
+      quick_copy_title: json["quick_copy_title"] ?? "",
+      admin_provided_number: json["admin_provided_number"] ?? "",
+    );
+  }
 }
 
 class InputField {

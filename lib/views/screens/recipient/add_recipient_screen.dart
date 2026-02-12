@@ -92,7 +92,12 @@ class AddRecipientScreen extends StatelessWidget {
                       children: [
                         TextLabelsWidget(
                           textLabels: Strings.country,
-                          textColor: CustomColor.inputBackgroundColor,
+                          textColor: CustomColor.inputBackgroundColor, textStyle: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          // Note: color here will override textColor if both are defined,
+                          // so ensure textColor is handled inside the widget.
+                        ),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * .33,
@@ -152,7 +157,12 @@ class AddRecipientScreen extends StatelessWidget {
                       children: [
                         TextLabelsWidget(
                           textLabels: Strings.phoneNumber,
-                          textColor: CustomColor.inputBackgroundColor,
+                          textColor: CustomColor.inputBackgroundColor, textStyle: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          // Note: color here will override textColor if both are defined,
+                          // so ensure textColor is handled inside the widget.
+                        ),
                         ),
                         InputTextField(
                           controller: _controller.emailController,
@@ -211,7 +221,12 @@ class AddRecipientScreen extends StatelessWidget {
                         children: [
                           TextLabelsWidget(
                             textLabels: Strings.firstName,
-                            textColor: CustomColor.textColor,
+                            textColor: CustomColor.textColor, textStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            // Note: color here will override textColor if both are defined,
+                            // so ensure textColor is handled inside the widget.
+                          ),
                           ),
                           InputTextField(
                             controller: _controller.firstNameController,
@@ -229,7 +244,12 @@ class AddRecipientScreen extends StatelessWidget {
                         children: [
                           TextLabelsWidget(
                             textLabels: Strings.lastName,
-                            textColor: CustomColor.textColor,
+                            textColor: CustomColor.textColor, textStyle: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            // Note: color here will override textColor if both are defined,
+                            // so ensure textColor is handled inside the widget.
+                          ),
                           ),
                           InputTextField(
                             controller: _controller.lastNameController,
@@ -304,7 +324,12 @@ class AddRecipientScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.selectCountry,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         Obx(
           () => CustomDropDown<Country>(
@@ -333,7 +358,12 @@ class AddRecipientScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.city,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.cityController,
@@ -353,7 +383,12 @@ class AddRecipientScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.state,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.stateController,
@@ -373,7 +408,12 @@ class AddRecipientScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.zipCode,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           controller: _controller.zipCodeController,
@@ -393,7 +433,12 @@ class AddRecipientScreen extends StatelessWidget {
       children: [
         TextLabelsWidget(
           textLabels: Strings.country,
-          textColor: CustomColor.textColor,
+          textColor: CustomColor.textColor, textStyle: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+          // Note: color here will override textColor if both are defined,
+          // so ensure textColor is handled inside the widget.
+        ),
         ),
         InputTextField(
           // readOnly: true,

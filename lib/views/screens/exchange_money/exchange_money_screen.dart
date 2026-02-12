@@ -91,7 +91,12 @@ class ExchangeMoneyScreen extends StatelessWidget {
           // addVerticalSpace(Dimensions.paddingVerticalSize),
           TextLabelsWidget(
             textLabels: Strings.exchangeFrom,
-            textColor: CustomColor.textColor,
+            textColor: CustomColor.textColor, textStyle: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            // Note: color here will override textColor if both are defined,
+            // so ensure textColor is handled inside the widget.
+          ),
           ),
           Container(
             margin:
@@ -163,7 +168,12 @@ class ExchangeMoneyScreen extends StatelessWidget {
 
           TextLabelsWidget(
             textLabels: Strings.exchangeTo,
-            textColor: CustomColor.textColor,
+            textColor: CustomColor.textColor, textStyle: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            // Note: color here will override textColor if both are defined,
+            // so ensure textColor is handled inside the widget.
+          ),
           ),
           Container(
             margin:

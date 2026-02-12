@@ -94,7 +94,12 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
           addVerticalSpace(10.h),
           TextLabelsWidget(
             textLabels: Strings.paymentMethod,
-            textColor: CustomColor.textColor,
+            textColor: CustomColor.textColor, textStyle: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            // Note: color here will override textColor if both are defined,
+            // so ensure textColor is handled inside the widget.
+          ),
           ),
           Container(
               margin:
@@ -133,7 +138,12 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
           addVerticalSpace(6.h),
           TextLabelsWidget(
             textLabels: Strings.amount,
-            textColor: CustomColor.textColor,
+            textColor: CustomColor.textColor, textStyle:TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            // Note: color here will override textColor if both are defined,
+            // so ensure textColor is handled inside the widget.
+          ),
           ),
           Container(
             margin:
@@ -179,7 +189,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontSize: 18),
+                              fontSize: 23),
                         ),
                       ],
                     ),

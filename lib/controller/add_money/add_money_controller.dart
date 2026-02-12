@@ -7,8 +7,9 @@ import 'package:walletium/backend/model/common/common_success_model.dart';
 
 import '../../backend/services_and_models/add_money/add_money_automatic_submit_model.dart';
 import '../../backend/services_and_models/add_money/add_money_index_model.dart';
-import '../../backend/services_and_models/add_money/add_money_manual_gateway_model.dart';
+import '../../backend/services_and_models/add_money/add_money_manual_gateway_model.dart' as manual_gateway;
 import '../../backend/services_and_models/add_money/add_money_service.dart';
+import '../../backend/services_and_models/add_money/add_money_manual_gateway_model.dart'; // Ensure this import exists
 import '../../backend/services_and_models/add_money/tatum_model.dart' as tatum;
 import '../../backend/utils/api_method.dart';
 import '../../routes/routes.dart';
@@ -383,7 +384,12 @@ class AddMoneyController extends GetxController with AddMoneyService {
             children: [
               TextLabelsWidget(
                 textLabels: data[item].label,
-                textColor: CustomColor.textColor,
+                textColor: CustomColor.textColor, textStyle: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                // Note: color here will override textColor if both are defined,
+                // so ensure textColor is handled inside the widget.
+              ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -410,7 +416,12 @@ class AddMoneyController extends GetxController with AddMoneyService {
             children: [
               TextLabelsWidget(
                 textLabels: data[item].label,
-                textColor: CustomColor.textColor,
+                textColor: CustomColor.textColor, textStyle: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                // Note: color here will override textColor if both are defined,
+                // so ensure textColor is handled inside the widget.
+              ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -488,13 +499,37 @@ class AddMoneyController extends GetxController with AddMoneyService {
   AddMoneyManualGatewayModel get addMoneyManualGatewayModel =>
       _addMoneyManualGatewayModel;
 
+  AddMoneyManualGatewayModel defaultAddMoneyManualGatewayModel = AddMoneyManualGatewayModel(
+    data: manual_gateway.Data(
+      gateway: manual_gateway.Gateway(
+        desc: "",
+        quick_copy: "",
+        quick_copy_title: "",
+        admin_provided_number: "", // Default value
+      ),
+      inputFields: [],
+    ),
+  );
+
+  String get quickcopy {
+    print("&&&3&&##############${addMoneyManualGatewayModel.data.gateway.quick_copy}##########");
+    return addMoneyManualGatewayModel.data.gateway.quick_copy;
+  }
+      
+  String get quickcopytitle =>
+
+      addMoneyManualGatewayModel.data.gateway.quick_copy_title;    
+
   ///* Get AddMoneyManualGateway in process
   Future<AddMoneyManualGatewayModel> addMoneyManualGatewayProcess() async {
     _isSubmitLoading.value = true;
     update();
     await addMoneyManualGatewayProcessApi(selectedGateway.value.alias)
         .then((value) {
-      _addMoneyManualGatewayModel = value!;
+      if (value != null) {
+        _addMoneyManualGatewayModel = value;
+        update(); // Force UI update
+      }
 
       _getDynamicInputField(_addMoneyManualGatewayModel.data.inputFields);
       Get.toNamed(Routes.addMoneyDetailsScreen);
@@ -586,7 +621,12 @@ class AddMoneyController extends GetxController with AddMoneyService {
             children: [
               TextLabelsWidget(
                 textLabels: data[item].label,
-                textColor: CustomColor.textColor,
+                textColor: CustomColor.textColor, textStyle: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                // Note: color here will override textColor if both are defined,
+                // so ensure textColor is handled inside the widget.
+              ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -613,7 +653,12 @@ class AddMoneyController extends GetxController with AddMoneyService {
             children: [
               TextLabelsWidget(
                 textLabels: data[item].label,
-                textColor: CustomColor.textColor,
+                textColor: CustomColor.textColor, textStyle: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                // Note: color here will override textColor if both are defined,
+                // so ensure textColor is handled inside the widget.
+              ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(

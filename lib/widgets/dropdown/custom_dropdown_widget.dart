@@ -286,8 +286,8 @@ class _CustomDropDown2State<T extends DropdownModel>
                   ? Image.network(
                       "https://7awally.com/public/backend/images/currency-flag/" +
                           widget.selectedValue!.flag,
-                      width: 15.w,
-                      height: 15.h,
+                      width: 25.w,
+                      height: 25.h,
                     )
                   : Container(),
             ],

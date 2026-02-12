@@ -97,7 +97,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         children: [
                                           TextLabelsWidget(
                                             textLabels: Strings.firstName,
-                                            textColor: CustomColor.whiteColor,
+                                            textColor: CustomColor.whiteColor, textStyle: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            // Note: color here will override textColor if both are defined,
+                                            // so ensure textColor is handled inside the widget.
+                                          ),
                                           ),
                                           InputTextField(
                                             controller:
@@ -117,7 +122,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         children: [
                                           TextLabelsWidget(
                                             textLabels: Strings.lastName,
-                                            textColor: CustomColor.whiteColor,
+                                            textColor: CustomColor.whiteColor, textStyle: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            // Note: color here will override textColor if both are defined,
+                                            // so ensure textColor is handled inside the widget.
+                                          ),
                                           ),
                                           InputTextField(
                                             controller:
@@ -144,7 +154,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         children: [
                                           TextLabelsWidget(
                                             textLabels: Strings.phoneNumber,
-                                            textColor: CustomColor.whiteColor,
+                                            textColor: CustomColor.whiteColor, textStyle: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            // Note: color here will override textColor if both are defined,
+                                            // so ensure textColor is handled inside the widget.
+                                          ),
                                           ),
                                           InputTextField(
                                             controller:
@@ -171,7 +186,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         children: [
                                           TextLabelsWidget(
                                             textLabels: Strings.country,
-                                            textColor: CustomColor.whiteColor,
+                                            textColor: CustomColor.whiteColor, textStyle: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            // Note: color here will override textColor if both are defined,
+                                            // so ensure textColor is handled inside the widget.
+                                          ),
                                           ),
                                           Container(
                                             width: MediaQuery.of(context)
@@ -273,7 +293,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           children: [
                                             TextLabelsWidget(
                                               textLabels: Strings.companyName,
-                                              textColor: CustomColor.whiteColor,
+                                              textColor: CustomColor.whiteColor, textStyle: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                              // Note: color here will override textColor if both are defined,
+                                              // so ensure textColor is handled inside the widget.
+                                            ),
                                             ),
                                             Container(
                                               margin: EdgeInsets.symmetric(
@@ -300,7 +325,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )),
                               TextLabelsWidget(
                                 textLabels: Strings.password,
-                                textColor: CustomColor.whiteColor,
+                                textColor: CustomColor.whiteColor, textStyle: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                // Note: color here will override textColor if both are defined,
+                                // so ensure textColor is handled inside the widget.
+                              ),
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(

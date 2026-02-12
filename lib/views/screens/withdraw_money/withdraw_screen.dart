@@ -108,7 +108,12 @@ class WithdrawScreen extends StatelessWidget {
           addVerticalSpace(30.h),
           TextLabelsWidget(
             textLabels: Strings.withdrawTo,
-            textColor: CustomColor.textColor,
+            textColor: CustomColor.textColor, textStyle: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            // Note: color here will override textColor if both are defined,
+            // so ensure textColor is handled inside the widget.
+          ),
           ),
           Container(
               margin:
@@ -140,7 +145,12 @@ class WithdrawScreen extends StatelessWidget {
           addVerticalSpace(6.h),
           TextLabelsWidget(
             textLabels: Strings.amount,
-            textColor: CustomColor.textColor,
+            textColor: CustomColor.textColor, textStyle: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            // Note: color here will override textColor if both are defined,
+            // so ensure textColor is handled inside the widget.
+          ),
           ),
           Container(
               margin:

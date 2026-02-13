@@ -8,11 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:walletium/routes/routes.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart'; // ✅ Add this
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'backend/services_and_models/api_endpoint.dart';
 import 'backend/utils/maintenance/maintenance_dialog.dart';
@@ -45,17 +44,10 @@ void main() async {
       print('🔥 FCM Token exists: ${fcm != null}');
       if (fcm != null) print('FCM Token: $fcm');
 
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        final idToken = await user.getIdToken(false);
-        print('🔐 Auth Token exists: ${idToken != null}');
-        if (idToken != null) print('Auth Token: ${idToken.token}');
-      } else {
-        print('👤 No user logged in');
-      }
-    } catch (e) {
+    } catch (e) {  // ✅ ADD THIS CATCH BLOCK
       print('❌ Token error: $e');
     }
+
 
     await FCMConfig.instance.init(
       onBackgroundMessage: _firebaseMessagingBackgroundHandler,
@@ -67,7 +59,7 @@ void main() async {
         sound: RawResourceAndroidNotificationSound('notification'),
       ),
     );
-
+    await NotificationService.initialize();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
@@ -102,9 +94,6 @@ void main() async {
   }
 }
 
-class FirebaseAuth {
-  static get instance => null;
-}
 
 
 
@@ -150,6 +139,51 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+class NotificationService {
+  static final FlutterLocalNotificationsPlugin _localNotifications =
+  FlutterLocalNotificationsPlugin();
+
+  static Future<void> initialize() async {
+    // Initialize local notifications
+    const AndroidInitializationSettings androidSettings =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings iosSettings =
+    DarwinInitializationSettings();
+
+    await _localNotifications.initialize(
+      const InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
+    );
+
+    // Handle foreground messages
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      _showLocalNotification(message);
+    });
+  }
+
+  static Future<void> _showLocalNotification(RemoteMessage message) async {
+    const AndroidNotificationDetails androidDetails =
+    AndroidNotificationDetails(
+      'high_importance_channel', // Use same channel as FCMConfig
+      'High Importance Notifications',
+      importance: Importance.max,
+    );
+
+    const NotificationDetails details = NotificationDetails(
+      android: androidDetails,
+      iOS: DarwinNotificationDetails(),
+    );
+
+    await _localNotifications.show(
+      message.hashCode,
+      message.notification?.title,
+      message.notification?.body,
+      details,
     );
   }
 }

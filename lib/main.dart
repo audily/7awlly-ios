@@ -28,6 +28,35 @@ void main() async {
     await ScreenUtil.ensureScreenSize();
 
     await Firebase.initializeApp();
+
+    // ✅ ADD THIS - One-time token refresh
+    final storage = GetStorage();
+    final isTokenRefreshed = storage.read('token_refreshed') ?? false;
+
+    if (!isTokenRefreshed) {
+      try {
+        // Delete old token
+        await FirebaseMessaging.instance.deleteToken();
+
+        // Wait for new token
+        await Future.delayed(Duration(milliseconds: 1500));
+
+        // Get new token
+        final newToken = await FirebaseMessaging.instance.getToken();
+        print('🔄 NEW FCM TOKEN: $newToken');
+
+        // TODO: Send to your backend API
+        // await yourApi.sendToken(newToken);
+
+        // Mark as done
+        await storage.write('token_refreshed', true);
+
+      } catch (e) {
+        print('❌ Token refresh failed: $e');
+      }
+    }
+
+    // ✅ KEEP YOUR EXISTING TOKEN DEBUG CODE
     try {
       if (Platform.isIOS) {
         final apns = await FirebaseMessaging.instance.getAPNSToken();
@@ -44,9 +73,10 @@ void main() async {
       print('🔥 FCM Token exists: ${fcm != null}');
       if (fcm != null) print('FCM Token: $fcm');
 
-    } catch (e) {  // ✅ ADD THIS CATCH BLOCK
+    } catch (e) {
       print('❌ Token error: $e');
     }
+
 
 
     await FCMConfig.instance.init(
